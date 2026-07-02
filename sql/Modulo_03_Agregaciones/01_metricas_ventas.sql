@@ -55,3 +55,14 @@ LEFT JOIN ordenes
     ON clientes.id_cliente = ordenes.id_cliente
 GROUP BY clientes.nombre_cliente 
 ORDER BY total_de_gastos DESC; -- <--- Ordenamos por el alias del dinero en reversa
+
+SELECT 
+    clientes.nombre_cliente,
+    SUM(ordenes.monto) AS total_de_gastos
+FROM clientes
+LEFT JOIN ordenes 
+    ON clientes.id_cliente = ordenes.id_cliente
+WHERE ordenes.metodo_pago = 'efectivo' -- <-- Sin punto y coma y con comillas simples
+GROUP BY clientes.nombre_cliente 
+HAVING total_de_gastos > 50
+ORDER BY total_de_gastos DESC; -- <-- El punto y coma va aquí, al cerrar todo
