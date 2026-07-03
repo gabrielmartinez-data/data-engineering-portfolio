@@ -1,20 +1,19 @@
 import pandas as pd
 
-# 1. Creamos la misma tabla de datos (en Python se llama DataFrame)
-datos = {
-    'ID_Ventas': ['V001', 'V002', 'V003'],
-    'Provincia': ['Santo Domingo Oeste', 'Santiago', 'La Romana'],
-    'Monto_Bruto': [150000, 280000, 120000]
-}
+# 1. La línea mágica: Python lee la pestaña 'Tienda' de tu archivo real de Excel
+# Usamos openpyxl como el motor de lectura por debajo
+archivo_excel = "Excel/financial-analysis-model.xlsx"
+df = pd.read_excel(archivo_excel, sheet_name="Tienda", engine="openpyxl")
+# 2. Operación masiva: Calculamos el ITBIS (18%) para CADA fila del archivo real
+df['ITBIS_Calculado'] = df['Revenue'] * 0.18
 
-df = pd.DataFrame(datos)
+# 3. Calculamos la Ganancia Neta para CADA fila
+df['Ganancia_Neta'] = df['Revenue'] - df['ITBIS_Calculado']
 
-# 2. RETO 1: Calcular el ITBIS (Usamos la coma decimal en Python con un punto '.' por sintaxis de código)
-df['Sum of ITBIS'] = df['Monto_Bruto'] * 0.18
+# 4. Mostramos las primeras 10 filas en la terminal para auditar que todo esté correcto
+print("\n--- ¡DATOS ABSORBIDOS Y PROCESADOS DESDE EXCEL COMPLETO! ---")
+print(df[['Location', 'Revenue', 'ITBIS_Calculado', 'Ganancia_Neta']].head(10))
 
-# 3. RETO 2: Calcular el Neto (Monto_Bruto menos ITBIS)
-df['Sum of Neto'] = df['Monto_Bruto'] - df['Sum of ITBIS']
-
-# 4. RETO 3: Mostrar el resumen gerencial en la terminal
-print("--- REPORTE DE VENTAS PROCESADO ---")
-print(df[['ID_Ventas', 'Provincia', 'Sum of ITBIS', 'Sum of Neto']])
+# 5. Opcional: Vamos a ver cuánto es el gran total de Ganancia Neta de la empresa
+total_neto = df['Ganancia_Neta'].sum()
+print(f"\n El Gran Total de Ganancia Neta es: RD$ {total_neto:,.2f}\n")
