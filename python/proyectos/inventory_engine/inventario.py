@@ -26,17 +26,36 @@ productos_incompletos = [
 class Producto:
     def __init__(self, nombre, precio, stock):
         self.nombre = nombre
-        self.precio = precio
-        self.stock = stock
+        self.__precio = precio
+        self.__stock = stock
 
     def ver_stock(self):
-        if self.stock > 0:
-            return "disponible"
+        if self.__stock > 0:
+             return "disponible"
         else:
-            return "no disponible"
+             return "no disponible"
 
     def calcular_precio_final(self, cantidad, impuestos=0.12):
-        return (self.precio * cantidad) + (self.precio * cantidad * impuestos)
+        return (self.__precio * cantidad) + (self.__precio * cantidad * impuestos)
+
+    def get_precio(self):
+        return self.__precio
+    
+    def set_precio(self, nuevo_precio):
+        if nuevo_precio > 0:
+            self.__precio = nuevo_precio
+        else:
+            print("El precio debe ser mayor a cero")
+
+    def get_stock(self):
+        return self.__stock
+    
+    def set_stock(self, nuevo_stock):
+        if nuevo_stock >= 0:
+            self.__stock = nuevo_stock
+        else:
+             print("El stock no puede ser negativo")
+
 class ProductoPerecible(Producto):
     def __init__(self, nombre, precio, stock, dias_vencimiento):
         super().__init__(nombre, precio, stock)
@@ -138,3 +157,11 @@ queso = ProductoPerecible("Queso",23, 4, 0)
 
 print(cafe.ver_stock(), cafe.calcular_precio_final(1), cafe.verificar_vencimiento())
 print(queso.ver_stock(), queso.calcular_precio_final(2), queso.verificar_vencimiento())
+
+
+# Prueba de encapsulamiento con getters y setters
+print("\n=== PRUEBA DE ENCAPSULAMIENTO ===")
+pan = Producto("pan", 20, 5)
+pan.set_precio(0)
+pan.set_stock(-1)
+print(pan.get_precio(), pan.get_stock())
