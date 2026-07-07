@@ -51,3 +51,29 @@ SELECT
 FROM ordenes
 LEFT JOIN clientes
     ON ordenes.id_cliente = clientes.id_cliente;
+
+-- --------------------------------------------------------------------
+-- REPORTE 3: Análisis de Competencia y Posicionamiento de Productos
+-- OBJETIVO: Clasificar los productos más caros comprados por cada cliente
+--           evaluando el comportamiento de empates en la memoria RAM.
+-- --------------------------------------------------------------------
+SELECT 
+    ordenes.id_orden,
+    IFNULL(clientes.nombre_cliente, 'Consumidor Final') AS nombre_de_cliente,
+    ordenes.producto,
+    ordenes.monto,
+    -- RANK(): Asigna puestos dejando huecos si hay empates.
+    -- Si hay dos productos en el puesto 2, el siguiente puesto saltará al 4.
+    RANK() OVER (
+        PARTITION BY ordenes.id_cliente 
+        ORDER BY ordenes.monto DESC
+    ) AS con_RANK,
+    -- DENSE_RANK(): Asigna puestos continuos sin importar los empates.
+    -- Aunque haya dos productos en el puesto 2, el siguiente puesto será el 3.
+    DENSE_RANK() OVER (
+        PARTITION BY ordenes.id_cliente 
+        ORDER BY ordenes.monto DESC
+    ) AS con_DENSE_RANK
+FROM ordenes
+LEFT JOIN clientes 
+    ON ordenes.id_cliente = clientes.id_cliente;
