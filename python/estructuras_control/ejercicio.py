@@ -4,6 +4,18 @@ class Producto:
         self.__precio = precio
         self.__stock = stock
 
+    def descripcion(self):
+        return f"{self.nombre} - precio: {self.__precio} disponibilidad: {self.ver_stock()}"
+    
+    def ver_stock(self):
+        if self.__stock > 0:
+             return "disponible"
+        else:
+             return "no disponible"
+
+    def calcular_precio_final(self, cantidad, impuestos=0.12):
+        return (self.__precio * cantidad) + (self.__precio * cantidad * impuestos)
+
     def get_precio(self):
         return self.__precio
     
@@ -21,10 +33,36 @@ class Producto:
             self.__stock = nuevo_stock
         else:
              print("El stock no puede ser negativo")
+
+    def ver_stock(self):
+        if self.__stock > 0:
+            return "disponible"
+        else:
+            return "no disponible"
+
+class ProductoPerecible(Producto):
+    def __init__(self, nombre, precio, stock, dias_vencimiento):
+        super().__init__(nombre, precio, stock)
+        self.dias_vencimiento = dias_vencimiento
+    
+    def descripcion(self):
+        return f"{self.nombre} - precio: {self.get_precio()} disponibilidad: {self.ver_stock()} {self.verificar_vencimiento()}"
+    
+
+    def verificar_vencimiento(self):
+        if self.dias_vencimiento > 0:
+            return f"Vence en {self.dias_vencimiento} dias"
+        else:
+            return "Producto vencido"  
         
 
-pan = Producto("pan", 20, 5)
-pan.set_precio(0)
-pan.set_stock(-1)
+        
+productos = [
+    Producto("arroz", 50, 100),
+    ProductoPerecible("leche", 75, 50, 10),
+    Producto("pan", 95, 0),
+    ProductoPerecible("queso", 120, 20, 3)
+]
 
-print(pan.get_precio(), pan.get_stock())
+for producto in productos:
+    print(producto.descripcion())

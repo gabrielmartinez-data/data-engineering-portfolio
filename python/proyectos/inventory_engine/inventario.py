@@ -29,6 +29,9 @@ class Producto:
         self.__precio = precio
         self.__stock = stock
 
+    def descripcion(self):
+        return f"{self.nombre} - precio: {self.__precio} disponibilidad: {ver_stock(self.__stock)}"
+    
     def ver_stock(self):
         if self.__stock > 0:
              return "disponible"
@@ -60,6 +63,10 @@ class ProductoPerecible(Producto):
     def __init__(self, nombre, precio, stock, dias_vencimiento):
         super().__init__(nombre, precio, stock)
         self.dias_vencimiento = dias_vencimiento
+    
+    def descripcion(self):
+        return f"{self.nombre} - precio: {self.__precio} disponibilidad: {ver_stock(self.__stock)} {self.verificar_vencimiento(self.dias_vencimiento)}"
+    
 
     def verificar_vencimiento(self):
         if self.dias_vencimiento > 0:
@@ -165,3 +172,13 @@ pan = Producto("pan", 20, 5)
 pan.set_precio(0)
 pan.set_stock(-1)
 print(pan.get_precio(), pan.get_stock())
+
+productos = [
+    Producto("arroz", 50, 100),
+    ProductoPerecible("leche", 75, 50, 10),
+    Producto("pan", 95, 0),
+    ProductoPerecible("queso", 120, 20, 3)
+]
+
+for producto in productos:
+    print(producto.descripcion())
