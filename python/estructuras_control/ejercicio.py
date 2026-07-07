@@ -34,11 +34,6 @@ class Producto:
         else:
              print("El stock no puede ser negativo")
 
-    def ver_stock(self):
-        if self.__stock > 0:
-            return "disponible"
-        else:
-            return "no disponible"
 
 class ProductoPerecible(Producto):
     def __init__(self, nombre, precio, stock, dias_vencimiento):

@@ -30,7 +30,7 @@ class Producto:
         self.__stock = stock
 
     def descripcion(self):
-        return f"{self.nombre} - precio: {self.__precio} disponibilidad: {ver_stock(self.__stock)}"
+        return f"{self.nombre} - precio: {self.__precio} disponibilidad: {self.ver_stock()}"
     
     def ver_stock(self):
         if self.__stock > 0:
@@ -59,13 +59,14 @@ class Producto:
         else:
              print("El stock no puede ser negativo")
 
+
 class ProductoPerecible(Producto):
     def __init__(self, nombre, precio, stock, dias_vencimiento):
         super().__init__(nombre, precio, stock)
         self.dias_vencimiento = dias_vencimiento
     
     def descripcion(self):
-        return f"{self.nombre} - precio: {self.__precio} disponibilidad: {ver_stock(self.__stock)} {self.verificar_vencimiento(self.dias_vencimiento)}"
+        return f"{self.nombre} - precio: {self.get_precio()} disponibilidad: {self.ver_stock()} {self.verificar_vencimiento()}"
     
 
     def verificar_vencimiento(self):
@@ -74,12 +75,7 @@ class ProductoPerecible(Producto):
         else:
             return "Producto vencido"  
         
-# Verifica si un producto tiene stock disponible
-def ver_stock(producto):
-    if producto["stock"] > 0:
-        return "disponible"
-    else:
-        return "no disponible"
+
 
 # Filtra productos cuyo precio esté por debajo del máximo indicado
 def filtrar_por_precio(inventario, precio_maximo):
@@ -114,6 +110,12 @@ def reporte_producto(producto):
 
     return f"{producto['nombre']} — precio: ${precio}, stock: {stock}"
 
+# Verifica si un producto tiene stock disponible
+def ver_stock(producto):
+    if producto["stock"] > 0:
+        return "disponible"
+    else:
+        return "no disponible"
 # PROCESAMIENTO
 # =====================
 
@@ -172,6 +174,7 @@ pan = Producto("pan", 20, 5)
 pan.set_precio(0)
 pan.set_stock(-1)
 print(pan.get_precio(), pan.get_stock())
+
 
 productos = [
     Producto("arroz", 50, 100),
