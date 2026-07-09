@@ -183,5 +183,6 @@ productos = [
     ProductoPerecible("queso", 120, 20, 3)
 ]
 
+print("\n=== REPORTE CON POLIMORFISMO ===")
 for producto in productos:
     print(producto.descripcion())

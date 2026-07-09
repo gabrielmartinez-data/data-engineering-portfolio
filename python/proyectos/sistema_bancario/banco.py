@@ -1,53 +1,56 @@
 # ✅ Accede al saldo real y lo actualiza
-def depositar(cliente, monto):
-    try:
-        if monto <= 0:
-            raise ValueError("el monto debe ser mayor a 0")
-       
-    except ValueError as e:
-        return str(e)
-    
-    cliente["saldo"] += monto
-    return cliente["saldo"]
-   
-  
 
 
-# ✅ Compara el monto contra el saldo real
-def retirar(cliente, monto):
-    try:
-        if monto <= 0:
-            raise ValueError("el monto debe ser mayor a 0")
-        if monto > cliente["saldo"]:
-            raise ValueError("Saldo insuficiente")
-    except ValueError as e:
-        return str(e)
-    
-    cliente["saldo"] -= monto
-    return cliente["saldo"]
-    
+class cuenta:
+    def __init__(self, nombre, cuenta, tipo, saldo):
+        self.nombre = nombre
+        self.cuenta = cuenta
+        self.tipo = tipo
+        self.__saldo = saldo
+
+    def get_saldo(self):
+            return self.__saldo
+
+    def depositar(cliente, monto):
+        try:
+            if monto <= 0:
+                raise ValueError("el monto debe ser mayor a 0")
+        
+        except ValueError as e:
+            return str(e)
+        
+        cliente["saldo"] += monto
+        return cliente["saldo"]
+
+
+
+
+    # ✅ Compara el monto contra el saldo real
+    def retirar(cliente, monto):
+        try:
+            if monto <= 0:
+                raise ValueError("el monto debe ser mayor a 0")
+            if monto > cliente["saldo"]:
+                raise ValueError("Saldo insuficiente")
+        except ValueError as e:
+            return str(e)
+        
+        cliente["saldo"] -= monto
+        return cliente["saldo"]
     
 
-cuentas_clientes = [
-    {"nombre": "Gabriel", "cuenta": 222, "saldo": 300340, "tipo": "corriente"},   
-    {"nombre": "pepe", "cuenta": 221, "saldo": 33000, "tipo": "ahorro"},
-    {"nombre": "lucas", "cuenta": 223, "saldo": 302100, "tipo": "ahorro"}   
-  
+    def descripcion(self):
+        return f"Cliente: {self.nombre} - Cuenta: {self.cuenta} - Tipo: {self.tipo} - Saldo: {self.get_saldo()}"
+cuentas = cuenta("Gabriel", 222, "corriente", 300340)
 
+
+
+
+
+
+cuentass = [
+    {"Gabriel", 222, "corriente", 300340},   
+    {"pepe", 221, "ahorro", 8000000},
+    {"lucas", 223, "ahorro", 2354545}   
 ]
 
-for cliente in cuentas_clientes:
-    print(f"Cliente: {cliente["nombre"]} -Cuenta: {cliente["cuenta"]} - Saldo: {cliente["saldo"]} - Tipo: {cliente["tipo"]}")
-
-
-print(f"---Prueba de aumento de saldo---")
-for cliente in cuentas_clientes:
-    nombre_cliente = cliente["nombre"]
-    resultado = depositar(cliente, 1122110)
-    print(f"Nombre: {nombre_cliente} nuevo saldo: {resultado}")
-
-print(f"---Prueba de reduccion de saldo---")
-for cliente in cuentas_clientes:
-    nombre_cliente = cliente["nombre"]
-    resultado = retirar(cliente,1111111110)
-    print(f"Nombre: {nombre_cliente} nuevo saldo: {resultado}")
