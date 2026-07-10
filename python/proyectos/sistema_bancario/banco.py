@@ -1,7 +1,7 @@
 # ✅ Accede al saldo real y lo actualiza
 
 
-class cuenta:
+class Cuenta:
     def __init__(self, nombre, cuenta, tipo, saldo):
         self.nombre = nombre
         self.cuenta = cuenta
@@ -11,7 +11,7 @@ class cuenta:
     def get_saldo(self):
             return self.__saldo
 
-    def depositar(cliente, monto):
+    def depositar(self, monto):
         try:
             if monto <= 0:
                 raise ValueError("el monto debe ser mayor a 0")
@@ -19,38 +19,35 @@ class cuenta:
         except ValueError as e:
             return str(e)
         
-        cliente["saldo"] += monto
-        return cliente["saldo"]
+        self.__saldo += monto
+        return self.__saldo
 
 
 
 
     # ✅ Compara el monto contra el saldo real
-    def retirar(cliente, monto):
+    def retirar(self, monto):
         try:
             if monto <= 0:
                 raise ValueError("el monto debe ser mayor a 0")
-            if monto > cliente["saldo"]:
+            if monto > self.__saldo:
                 raise ValueError("Saldo insuficiente")
         except ValueError as e:
             return str(e)
         
-        cliente["saldo"] -= monto
-        return cliente["saldo"]
+        self.__saldo -= monto
+        return self.__saldo
     
 
     def descripcion(self):
         return f"Cliente: {self.nombre} - Cuenta: {self.cuenta} - Tipo: {self.tipo} - Saldo: {self.get_saldo()}"
-cuentas = cuenta("Gabriel", 222, "corriente", 300340)
 
-
-
-
-
-
-cuentass = [
-    {"Gabriel", 222, "corriente", 300340},   
-    {"pepe", 221, "ahorro", 8000000},
-    {"lucas", 223, "ahorro", 2354545}   
+clientes = [
+    Cuenta("Gabriel", 222, "corriente", 300340),
+    Cuenta("pepe", 221, "ahorro", 8000000)
 ]
 
+for cliente in clientes:
+    print(cliente.depositar(0))
+    print(cliente.descripcion())
+    print(cliente.retirar(45))
