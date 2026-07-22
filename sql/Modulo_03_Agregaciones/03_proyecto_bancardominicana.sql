@@ -167,3 +167,18 @@ FROM transacciones
 LEFT JOIN cuentas
     ON transacciones.id_cuenta = cuentas.id_cuenta
 WHERE transacciones.monto >= 2500;
+
+SELECT 
+    IFNULL(cuentas.titular, 'Consumidor Anónimo') AS titular_cuenta,
+    SUM(transacciones.monto) AS total_depositado,
+    COUNT(transacciones.id_transaccion) AS cantidad_depositos,
+    AVG(transacciones.monto) AS promedio_por_deposito,
+    RANK() OVER (
+        ORDER BY SUM(transacciones.monto) DESC
+    ) AS ranking_clientes_top
+FROM transacciones
+LEFT JOIN cuentas
+    ON transacciones.id_cuenta = cuentas.id_cuenta
+WHERE transacciones.tipo_movimiento = 'Deposito'
+GROUP BY cuentas.id_cuenta, cuentas.titular
+HAVING total_depositado >= 10000;
