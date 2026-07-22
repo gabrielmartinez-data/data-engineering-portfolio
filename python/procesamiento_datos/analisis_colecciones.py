@@ -17,3 +17,15 @@ clientes_vip = [i["cliente"] for i in transacciones if i["estado"] == "completad
 print(f"Total de ventas en tecnologia completada: ${total}")
 print(f"Clientes VIP identificados: {clientes_vip}")
 
+total_categoria = {}
+for i in transacciones:
+    if i["estado"] == "completado":
+        if i["categoria"] not in total_categoria:
+            total_categoria[i["categoria"]] = i["monto"]
+        else:
+            total_categoria[i["categoria"]] += i["monto"]
+
+print(total_categoria)
+   
+
+
