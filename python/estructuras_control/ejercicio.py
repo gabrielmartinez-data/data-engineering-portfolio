@@ -1,63 +1,51 @@
-class Producto:
-    def __init__(self, nombre, precio, stock):
-        self.nombre = nombre
-        self.__precio = precio
-        self.__stock = stock
+# ==========================================
+# PROCESAMIENTO Y LIMPIEZA DE DATOS CON PYTHON
+# Proyecto: Gestión Dinámica de Nómina de Salarios
+# ==========================================
 
-    def descripcion(self):
-        return f"{self.nombre} - precio: {self.__precio} disponibilidad: {self.ver_stock()}"
-    
-    def ver_stock(self):
-        if self.__stock > 0:
-             return "disponible"
-        else:
-             return "no disponible"
+# 1. Definición de la lista inicial de salarios (USD)
+salarios = [1200, 850, 3100, 950]
+print(f"1. Lista Inicial: {salarios}")
 
-    def calcular_precio_final(self, cantidad, impuestos=0.12):
-        return (self.__precio * cantidad) + (self.__precio * cantidad * impuestos)
+# 2. Unir datos de otra sucursal (.extend)
+# A diferencia de append(), extend() añade múltiples elementos uno a uno
+sucursal_norte = [1500, 2200]
+salarios.extend(sucursal_norte)
+print(f"2. Después de extend() [Sucursal Norte]: {salarios}")
 
-    def get_precio(self):
-        return self.__precio
-    
-    def set_precio(self, nuevo_precio):
-        if nuevo_precio > 0:
-            self.__precio = nuevo_precio
-        else:
-            print("El precio debe ser mayor a cero")
+# 3. Insertar un dato en un índice específico (.insert)
+# Agregamos el salario del Gerente ($4500) en el índice 0 (inicio)
+salarios.insert(0, 4500)
+print(f"3. Después de insert() [Gerente en pos 0]: {salarios}")
 
-    def get_stock(self):
-        return self.__stock
-    
-    def set_stock(self, nuevo_stock):
-        if nuevo_stock >= 0:
-            self.__stock = nuevo_stock
-        else:
-             print("El stock no puede ser negativo")
+# 4. Eliminar un elemento por su VALOR (.remove)
+# Un empleado renunció; eliminamos la primera aparición del salario $850
+salarios.remove(850)
+print(f"4. Después de remove(850): {salarios}")
 
+# 5. Extraer y eliminar un elemento por su ÍNDICE (.pop)
+# Eliminamos y capturamos el último registro ingresado por error
+salario_eliminado = salarios.pop()
+print(f"5. Después de pop() [Se extrajo {salario_eliminado}]: {salarios}")
 
-class ProductoPerecible(Producto):
-    def __init__(self, nombre, precio, stock, dias_vencimiento):
-        super().__init__(nombre, precio, stock)
-        self.dias_vencimiento = dias_vencimiento
-    
-    def descripcion(self):
-        return f"{self.nombre} - precio: {self.get_precio()} disponibilidad: {self.ver_stock()} {self.verificar_vencimiento()}"
-    
+# 6. Ordenar la lista in-place (.sort)
+salarios.sort()
+print(f"6. Lista ordenada de menor a mayor con sort(): {salarios}")
 
-    def verificar_vencimiento(self):
-        if self.dias_vencimiento > 0:
-            return f"Vence en {self.dias_vencimiento} dias"
-        else:
-            return "Producto vencido"  
-        
+# 7. Cálculo de métricas agregadas con funciones nativas
+salario_min = min(salarios)
+salario_max = max(salarios)
+total_nomina = sum(salarios)
+total_empleados = len(salarios)
+promedio_salarios = total_nomina / total_empleados
 
-        
-productos = [
-    Producto("arroz", 50, 100),
-    ProductoPerecible("leche", 75, 50, 10),
-    Producto("pan", 95, 0),
-    ProductoPerecible("queso", 120, 20, 3)
-]
-
-for producto in productos:
-    print(producto.descripcion())
+# 8. Reporte Final
+print("\n" + "="*40)
+print("       MÉTRICAS DE LA NÓMINA FINAL      ")
+print("="*40)
+print(f" - Salario Mínimo  : ${salario_min:.2f}")
+print(f" - Salario Máximo  : ${salario_max:.2f}")
+print(f" - Nómina Total    : ${total_nomina:.2f}")
+print(f" - Cantidad Staff  : {total_empleados}")
+print(f" - Salario Promedio: ${promedio_salarios:.2f}")
+print("="*40)
